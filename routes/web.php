@@ -12,8 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('first');
+    return view('welcome');
 });
+
+// Route::get('/', function () {
+//     return view('first');
+// });
 
 Route::get('/second', function () {
 	return view('second');
