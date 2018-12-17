@@ -26,3 +26,6 @@ Route::get('/second', function () {
 Route::get('/about', function () {
 	return view('about');
 });	
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
