@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\facades\Input;
 
+use Illuminate\Support\Facades\Hash;
+
+use Register;
+
 class RController extends Controller
 {
     /**
@@ -33,15 +37,23 @@ class RController extends Controller
             'password_confirmation' => 'required|min:8|same:password',
         ]);
 
-        print_r($request);
+        $request['password'] = Hash::make('password');
 
-        // foreach($request as $one) {
-        //     if($one == $one) {
-        //         echo "1";
-        //     }
+        $register = new Register();
+        $register->name = $request['name'];
+        $register->email = $request['email'];
+        $register->password = $request['[password'];
+        $register->save();    
+
+        echo "OK!";
+
+        // $this->test = array();
+        // foreach($request->all() as $one) {
+        //     $this->test[] = $one;
         // }
+        
+        // print_r($this->test);
 
-        // echo "OK";
     }
 
     /**
