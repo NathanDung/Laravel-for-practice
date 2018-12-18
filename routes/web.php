@@ -17,16 +17,16 @@ Route::get('/', function () {
 
 // Route::get('/', function () {
 //     return view('first');
-// });
+// });//Laravel影片-4
 
 Route::get('/second', function () {
 	return view('second');
-});	
+});//Laravel影片-4
 
 Route::get('/about', function () {
 	return view('about');
-});	
+});//Laravel影片-4
 
-Auth::routes();
+// Auth::routes();//make:auth自動生成
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');//make:auth自動生成
