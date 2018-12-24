@@ -16,7 +16,10 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/', function () {
+Route::get('/', 'PagesController@home');
+Route::get('/second', 'PagesController@second');
+Route::get('/about', 'PagesController@about');
+/*Route::get('/', function () {
 	return view('first',[
 		'tasks' => [
 			'Go to the store',
@@ -25,7 +28,7 @@ Route::get('/', function () {
 			'Go to the concert'
 		],
 		'foo' => request('inputbyyourself')
-	]); //Laravel video episode -5
+	]); //Laravel video Episode -5
 
 	/* $tasks = [
 	 	'Go to the store',
@@ -44,17 +47,17 @@ Route::get('/', function () {
 
     	//'foo' => request('title')
     	//This array can be also like 'foo' => 'foobar', and when uses foo in first.blade.php view, it can returns "foobar".
-    ]); */
+    ]); 
 
-});//Laravel影片-4
+}); Laravel影片-4 */
 
-Route::get('/second', function () {
+/* Route::get('/second', function () {
 	return view('second');
-});//Laravel影片-4
+});//Laravel影片-4 */
 
-Route::get('/about', function () {
+/* Route::get('/about', function () {
 	return view('about');
-});//Laravel影片-4
+});//Laravel影片-4 */
 
 // Auth::routes();//make:auth自動生成
 
