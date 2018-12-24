@@ -19,6 +19,7 @@ Route::get('/welcome', function () {
 Route::get('/', 'PagesController@home');
 Route::get('/second', 'PagesController@second');
 Route::get('/about', 'PagesController@about');
+
 /*Route::get('/', function () {
 	return view('first',[
 		'tasks' => [
@@ -49,15 +50,15 @@ Route::get('/about', 'PagesController@about');
     	//This array can be also like 'foo' => 'foobar', and when uses foo in first.blade.php view, it can returns "foobar".
     ]); 
 
-}); Laravel影片-4 */
+}); Laravel Episoda -4 */
 
 /* Route::get('/second', function () {
 	return view('second');
-});//Laravel影片-4 */
+});//Laravel Episoda -4 */
 
 /* Route::get('/about', function () {
 	return view('about');
-});//Laravel影片-4 */
+});//Laravel Episoda -4 */
 
 // Auth::routes();//make:auth自動生成
 
