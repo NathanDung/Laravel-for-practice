@@ -20,6 +20,8 @@ Route::get('/', 'PagesController@home');
 Route::get('/second', 'PagesController@second');
 Route::get('/about', 'PagesController@about');
 
+Route::get('/projects', 'ProjectsController@index');
+
 /*Route::get('/', function () {
 	return view('first',[
 		'tasks' => [
