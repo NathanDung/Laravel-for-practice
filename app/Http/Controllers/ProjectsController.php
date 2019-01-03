@@ -20,6 +20,11 @@ class ProjectsController extends Controller
     	return view('projects.create');
     }
 
+    public function show()
+    {
+
+    }
+
     public function store()
     {
     	$project = new project();
@@ -27,5 +32,20 @@ class ProjectsController extends Controller
     	$project->description = request('description');
     	$project->save();
     	return redirect('/projects');
+    }
+
+    public function edit()
+    {
+
+    }
+
+    public function update()
+    {
+
+    }
+
+    public function destroy()
+    {
+
     }
 }
