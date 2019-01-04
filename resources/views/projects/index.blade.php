@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
+@extends('layout')
 
-	<h1>Projects</h1>
+@section('content')
+	<h1 class="title">Projects</h1>
 
-	@foreach($projects as $project) <!--use foreach loop to fetch single data from database-->
-		<li>{{ $project->title. " is fucking " .$project->description }}</li>
-	@endforeach
-
-</body>
-</html>
+	<ul>
+		@foreach($projects as $project)
+			<li>
+				<a href="/projects/{{ $project->id }}">
+					{{ $project->title }}
+				</a>	
+			</li>
+		@endforeach
+	</ul>	
+@endsection
