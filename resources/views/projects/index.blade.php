@@ -8,7 +8,7 @@
 	<h1>Projects</h1>
 
 	@foreach($projects as $project) <!--use foreach loop to fetch single data from database-->
-		<li>{{ $project -> title }}</li>
+		<li>{{ $project -> description }}</li>
 	@endforeach
 
 </body>
