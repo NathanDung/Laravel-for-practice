@@ -57,13 +57,16 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
+            'key' => env('AWSAccessKeyId=AKIAIMFLLXH5XBLBOPJA'),
+            'secret' => env('AWSSecretKey=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'),
+            'region' => env('p-northeast-1'),
+            'bucket' => env('nathand'),
+            'cache' => [
+                'store' => 'memcached',
+                'expire' => 600,
+                'prefix' => 'cache-prefix',
+            ],
         ],
-
     ],
 
 ];

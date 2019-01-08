@@ -30,7 +30,7 @@ class ProjectsController extends Controller
     		'title' => ['required', 'min:3'],
     		'description' => 'required|min:5|max:100'
     	]);
-
+ 
     	project::create($attributes);
 
     	// project::create([
