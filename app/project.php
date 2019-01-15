@@ -11,4 +11,9 @@ class project extends Model
     // ];
 
     protected $guarded = [];
+
+    public function task()
+    {
+    	return $this->belongsToMany(Task::class);    
+    }
 }

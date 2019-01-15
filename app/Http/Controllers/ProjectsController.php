@@ -27,7 +27,7 @@ class ProjectsController extends Controller
     public function store()
     {
     	$attributes = request()->validate([
-    		'title' => ['required', 'min:3'],
+    		'title' => ['required', 'min:2'],
     		'description' => 'required|min:5|max:100'
     	]);
  
