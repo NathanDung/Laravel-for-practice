@@ -56,6 +56,36 @@ class RController extends Controller
         //header('Location: https://example.com/members.php');
     }
 
+    public function personalinfo()
+    {
+        $fb = new \Facebook\Facebook([
+            'app_id' => '279976319334641',
+            'app_secret' => '2315ad1e4f227db193b957ff69fce8fa',
+            'default_graph_version' => 'v3.2',
+        ]);
+
+        try {
+        // Returns a `Facebook\FacebookResponse` object
+        $response = $fb->get('/me?fields=id,name,email,picture', 'EAADZBoxEPOPEBAFT9XUOZAmxsxLIYRt6HcvsaXZCMHjaHL80ZAOCNmOwlquZCGqSKZCcYcpUzuqTtPjKZCfsdN2RXaKuukOvh1zeywcPSM7J0hyynQc9XkrgvLa0Bbqq1ABIhSWbsfyBYSU4HZAxpW8Yw8VSCkbPOxL28UnYhXzblkZAikp4wDDUqGSGbmFjcTa3n5ZBAlJPTcZC1u8A2JfOovy');
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+        echo 'Graph returned an error: ' . $e->getMessage();
+        exit;
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+        echo 'Facebook SDK returned an error: ' . $e->getMessage();
+        exit;
+    }
+        $user = $response->getGraphUser();
+        echo 'Name: ' . $user['name']."<br>";
+
+        $graphNode = $response->getGraphNode();
+        $datas = $graphNode['picture'];
+        echo 'Email: ' . $graphNode['email']."<br>";
+        echo 'Picture: ' . $graphNode['picture']."<br>";
+        foreach($datas as $data){
+            var_dump($data);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -20,6 +20,7 @@ Route::get('/watch', function (){
 });
 
 Route::get('/token', 'RController@index');
+Route::get('/personalinfo', 'RController@personalinfo');
 
 Route::resource('/projects', 'ProjectsController');
 
