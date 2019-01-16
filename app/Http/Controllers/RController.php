@@ -19,7 +19,41 @@ class RController extends Controller
      */
     public function index()
     {
-        //
+        # /js-login.php
+        $fb = new \Facebook\Facebook([
+          'app_id' => '279976319334641',
+          'app_secret' => '2315ad1e4f227db193b957ff69fce8fa',
+          'default_graph_version' => 'v3.2',
+          ]);
+
+        $helper = $fb->getJavaScriptHelper();
+
+        try {
+          $accessToken = $helper->getAccessToken();
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+          // When Graph returns an error
+          echo 'Graph returned an error: ' . $e->getMessage();
+          exit;
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+          // When validation fails or other local issues
+          echo 'Facebook SDK returned an error: ' . $e->getMessage();
+          exit;
+        }
+
+        if (! isset($accessToken)) {
+          echo 'No cookie set or no OAuth data could be obtained from cookie.';
+          exit;
+        }
+
+        // Logged in
+        echo '<h3>Access Token</h3>';
+        var_dump($accessToken->getValue());
+
+        $_SESSION['fb_access_token'] = (string) $accessToken;
+
+        // User is logged in!
+        // You can redirect them to a members-only page.
+        //header('Location: https://example.com/members.php');
     }
 
     /**

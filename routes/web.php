@@ -11,10 +11,15 @@
 |
 */
 
-Route::get('/welcome', function () {
-
-    return view('welcome');
+Route::get('/login', function () {
+	return view('welcome');
 });
+
+Route::get('/watch', function (){
+	return view('watch');
+});
+
+Route::get('/token', 'RController@index');
 
 Route::resource('/projects', 'ProjectsController');
 
