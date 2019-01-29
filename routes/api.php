@@ -20,3 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/r', 'RController@create');
 
 Route::get('/test', 'AwsController@test');
+
+Route::get('/pay', 'RController@test');
+
+Route::get('/accept', 'RController@accept');
