@@ -12,7 +12,7 @@ class project extends Model
 
     protected $guarded = [];
 
-    public function task()
+    public function tasks()
     {
     	return $this->belongsToMany(Task::class);    
     }

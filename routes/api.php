@@ -21,6 +21,8 @@ Route::post('/r', 'RController@create');
 
 Route::get('/test', 'AwsController@test');
 
-Route::get('/pay', 'RController@test');
+Route::get('/pay', 'RController@pay');
 
-Route::get('/accept', 'RController@accept');
+Route::post('/accept', 'RController@accept');
+
+Route::get('/check', 'RController@check');

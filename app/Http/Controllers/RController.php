@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 
 use Register;
 
+use Illuminate\Support\Facades\Log;
+
 class RController extends Controller
 {
     /**
@@ -176,18 +178,12 @@ class RController extends Controller
         //
     }
 
-    public function test()
+    public function pay()
     {
-
-    /**
-    *    Credit信用卡付款產生訂單範例
-    */
-    
-    //載入SDK(路徑可依系統規劃自行調整)
     include('ECPay.Payment.Integration.php');
     try {
         
-        $obj = new ECPay_AllInOne();
+        $obj = new \ECPay_AllInOne();
    
         //服務參數
         $obj->ServiceURL  = "https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5";   //服務位置
@@ -197,22 +193,22 @@ class RController extends Controller
         $obj->EncryptType = '1';                                                           //CheckMacValue加密類型，請固定填入1，使用SHA256加密
         //基本參數(請依系統規劃自行調整)
         $MerchantTradeNo = "Test".time() ;
-        $obj->Send['ReturnURL']         = "https://85defe88.ngrok.io/api/accept" ;    //付款完成通知回傳的網址
+        $obj->Send['ReturnURL']         = "https://4a478367.ngrok.io/api/accept" ;    //付款完成通知回傳的網址
         $obj->Send['MerchantTradeNo']   = $MerchantTradeNo;                          //訂單編號
         $obj->Send['MerchantTradeDate'] = date('Y/m/d H:i:s');                       //交易時間
-        $obj->Send['TotalAmount']       = 2000;                                      //交易金額
-        $obj->Send['TradeDesc']         = "good to drink" ;                          //交易描述
-        $obj->Send['ChoosePayment']     = ECPay_PaymentMethod::Credit ;              //付款方式:Credit
-        $obj->Send['IgnorePayment']     = ECPay_PaymentMethod::GooglePay ;           //不使用付款方式:GooglePay
+        $obj->Send['TotalAmount']       = 2000;                                     //交易金額
+        $obj->Send['TradeDesc']         = "good to drink" ;                         //交易描述
+        $obj->Send['ChoosePayment']     = \ECPay_PaymentMethod::Credit ;           //付款方式:Credit
+        $obj->Send['IgnorePayment']     = \ECPay_PaymentMethod::GooglePay ;           //不使用付款方式:GooglePay
         //訂單的商品資料
         array_push($obj->Send['Items'], array('Name' => "歐付寶黑芝麻豆漿", 'Price' => (int)"2000",
                    'Currency' => "元", 'Quantity' => (int) "1", 'URL' => "dedwed"));
         //Credit信用卡分期付款延伸參數(可依系統需求選擇是否代入)
         //以下參數不可以跟信用卡定期定額參數一起設定
-        $obj->SendExtend['CreditInstallment'] = '' ;    //分期期數，預設0(不分期)，信用卡分期可用參數為:3,6,12,18,24
-        $obj->SendExtend['InstallmentAmount'] = 0 ;    //使用刷卡分期的付款金額，預設0(不分期)
-        $obj->SendExtend['Redeem'] = false ;           //是否使用紅利折抵，預設false
-        $obj->SendExtend['UnionPay'] = false;          //是否為聯營卡，預設false;
+        // $obj->SendExtend['CreditInstallment'] = '' ;    //分期期數，預設0(不分期)，信用卡分期可用參數為:3,6,12,18,24
+        // $obj->SendExtend['InstallmentAmount'] = 0 ;    //使用刷卡分期的付款金額，預設0(不分期)
+        // $obj->SendExtend['Redeem'] = false ;           //是否使用紅利折抵，預設false
+        // $obj->SendExtend['UnionPay'] = false;          //是否為聯營卡，預設false;
         //Credit信用卡定期定額付款延伸參數(可依系統需求選擇是否代入)
         //以下參數不可以跟信用卡分期付款參數一起設定
         // $obj->SendExtend['PeriodAmount'] = '' ;    //每次授權金額，預設空字串
@@ -247,8 +243,61 @@ class RController extends Controller
         } 
     }
 
-    public function accept(Request $request)
+    static function accept(Request $request, $HashKey = '5294y06JbISpM5x9', $HashIV = 'v77hoKGq4kWxNNIS', $encType = 1)
     {   
-        dd($request);
+        Log::Info($request->input());
+        $sMacValue = '' ;
+            $arr = $request->input();
+
+            if(isset($arr)) {   
+                unset($arr['CheckMacValue']);
+
+                uksort($arr, function ($a,$b) {
+                    return strcasecmp($a, $b);
+                });
+
+                $sMacValue = 'HashKey=' . $HashKey ;
+                foreach($arr as $key => $value)
+                {
+                    $sMacValue .= '&' . $key . '=' . $value ;
+                }
+                
+                $sMacValue .= '&HashIV=' . $HashIV ;    
+                   
+                $sMacValue = urlencode($sMacValue); 
+                
+                $sMacValue = strtolower($sMacValue);        
+                
+                $sMacValue = str_replace('%2d', '-', $sMacValue);
+                $sMacValue = str_replace('%5f', '_', $sMacValue);
+                $sMacValue = str_replace('%2e', '.', $sMacValue);
+                $sMacValue = str_replace('%21', '!', $sMacValue);
+                $sMacValue = str_replace('%2a', '*', $sMacValue);
+                $sMacValue = str_replace('%28', '(', $sMacValue);
+                $sMacValue = str_replace('%29', ')', $sMacValue);
+                                    
+                $sMacValue = hash('sha256', $sMacValue);
+
+                $sMacValue = strtoupper($sMacValue);
+                Log::Info($sMacValue);
+            }  
+    }
+
+    public function check()
+    { 
+      $sMacValue = "HashKey=5294y06JbISpM5x9&CustomField1=&CustomField2=&CustomField3=&CustomField4=&MerchantID=2000132&MerchantTradeNo=Test1548855206&PaymentDate=2019/01/30 21:34:05&PaymentType=Credit_CreditCard&PaymentTypeChargeFee=1&RtnCode=1&RtnMsg=交易成功&SimulatePaid=0&StoreID=&TradeAmt=2000&TradeDate=2019/01/30 21:33:26&TradeNo=1901302133266711&HashIV=v77hoKGq4kWxNNIS";
+
+      $sMacValue = urlencode($sMacValue);
+      $sMacValue = strtolower($sMacValue);
+      $sMacValue = str_replace('%2d', '-', $sMacValue);
+      $sMacValue = str_replace('%5f', '_', $sMacValue);
+      $sMacValue = str_replace('%2e', '.', $sMacValue);
+      $sMacValue = str_replace('%21', '!', $sMacValue);
+      $sMacValue = str_replace('%2a', '*', $sMacValue);
+      $sMacValue = str_replace('%28', '(', $sMacValue);
+      $sMacValue = str_replace('%29', ')', $sMacValue);
+      $sMacValue = hash('Sha256', $sMacValue);
+      $sMacValue = strtoupper($sMacValue);
+      return $sMacValue;
     }
 }

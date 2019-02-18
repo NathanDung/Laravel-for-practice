@@ -24,6 +24,8 @@ Route::get('/personalinfo', 'RController@personalinfo');
 
 Route::resource('/projects', 'ProjectsController');
 
+Route::patch('/tasks/{task}', 'ProjectTasksController@update');
+
 // Route::get('/projects', 'ProjectsController@index');
 // Route::get('/projects/create', 'ProjectsController@create');
 // Route::get('/projects/{project}', 'ProjectsController@show');
